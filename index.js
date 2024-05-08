@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
-const testRoute = require("./routes/test.route");
 const app = express();
 const port = process.env.PORT || 3030;
 const API_URL = process.env.WHATSAPP_API_URL;
@@ -9,7 +8,6 @@ const API_TOKEN = process.env.WHATSAPP_API_TOKEN;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/test', testRoute)
 
 const sendMessage = async (to) => {
     try {
