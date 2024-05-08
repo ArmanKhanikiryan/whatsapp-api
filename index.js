@@ -50,6 +50,10 @@ app.post('/send-message', async (req, res) => {
     }
 });
 
+app.get('/', (req, res) => {
+    res.send('Hello World! This is a root route.');
+})
+
 app.post('/webhook', (req, res) => {
     const { from, message } = req.body;
     console.log(`Received message from ${from}: ${message}`);
