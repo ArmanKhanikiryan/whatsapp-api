@@ -52,8 +52,13 @@ app.post('/send-message', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.send('825860659');
-})
+    const receivedChallenge = req.query['hub.challenge'];
+    if (receivedChallenge) {
+        res.status(200).send(receivedChallenge);
+    } else {
+        res.status(403).send('Invalid request');
+    }
+});
 
 app.post('/webhook', (req, res) => {
     const { from, message } = req.body;
