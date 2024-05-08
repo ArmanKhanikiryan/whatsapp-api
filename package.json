@@ -2,7 +2,7 @@
   "name": "test-wp-api",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
     "dev": "node --watch --env-file=.env app.js",
     "build": ""
