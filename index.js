@@ -82,7 +82,7 @@ app.get('/redirect', (req, res) => {
 
 app.post('/webhook', (req, res) => {
     const { from, message } = req.body;
-    console.log(`Received message from ${from}: ${message}`);
+    req.body.message = `Received message from ${from}: ${message}`;
     res.redirect(301, 'http://localhost:9999/new-endpoint');
 });
 
