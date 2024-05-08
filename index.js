@@ -2,14 +2,29 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const axios = require('axios');
 const testRoute = require("./routes/test.route");
+const cors = require('cors');
 const app = express();
 const port = process.env.PORT || 3030;
 const API_URL = process.env.WHATSAPP_API_URL;
 const API_TOKEN = process.env.WHATSAPP_API_TOKEN;
 
+let coutn = 1;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 app.use('/test', testRoute);
+
+app.get('/events', (req, res) => {
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    const sendEvent = (data) => {
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+    };
+    sendEvent({ message: `Hello from server! Its Arman ${++coutn}` });
+    // req.on('close', () => {
+    // });
+});
 
 const sendMessage = async (to) => {
     try {
