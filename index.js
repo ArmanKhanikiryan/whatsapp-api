@@ -1,7 +1,6 @@
-import express from 'express';
-import bodyParser from 'body-parser';
-import axios from 'axios';
-import cors from 'cors';
+const express = require('express');
+const bodyParser = require('body-parser');
+const axios = require('axios');
 
 const app = express();
 const port = process.env.PORT || 3030;
@@ -10,7 +9,6 @@ const API_TOKEN = process.env.WHATSAPP_API_TOKEN;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
 
 const sendMessage = async (to) => {
     try {
@@ -38,6 +36,7 @@ const sendMessage = async (to) => {
         return response.data;
     } catch (error) {
         console.error('Error sending message:', error.response ? error.response.data : error.message);
+        throw error;
     }
 };
 
@@ -45,28 +44,17 @@ app.post('/send-message', async (req, res) => {
     const { to } = req.body;
     try {
         await sendMessage(to);
-        res.send('Message sent successfully');
+        res.json({ message: 'Message sent successfully' });
     } catch (error) {
-        res.status(500).send('Error sending message');
+        res.status(500).json({ error: 'Error sending message' });
     }
 });
 
-app.post('/send-message', async (req, res) => {
-    const { to } = req.body;
-    try {
-        await sendMessage(to);
-        res.send('Message sent successfully');
-    } catch (error) {
-        res.status(500).send('Error sending message');
-    }
-});
-
-app.post('/webhook',(req, res) => {
+app.post('/webhook', (req, res) => {
     const { from, message } = req.body;
     console.log(`Received message from ${from}: ${message}`);
     res.sendStatus(200);
 });
-
 
 app.post('/webhook2', (req, res) => {
     const { entry } = req.body;
@@ -84,10 +72,10 @@ app.post('/webhook2', (req, res) => {
     res.sendStatus(200);
 });
 
-
+app.use((req, res) => {
+    res.status(404).json({ error: 'Not Found' });
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-
-
