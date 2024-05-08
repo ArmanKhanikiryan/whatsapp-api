@@ -75,27 +75,32 @@ app.get('/', (req, res) => {
     }
 });
 
+app.get('/redirect', (req, res) => {
+    req.body.message = 'You were redirected to a new endpoint';
+    res.redirect(301, 'http://localhost:9999/new-endpoint');
+});
+
 app.post('/webhook', (req, res) => {
     const { from, message } = req.body;
     console.log(`Received message from ${from}: ${message}`);
-    res.sendStatus(200);
+    res.redirect(301, 'http://localhost:9999/new-endpoint');
 });
 
-app.post('/webhook2', (req, res) => {
-    const { entry } = req.body;
-    if (entry && entry.length > 0) {
-        entry.forEach(entryItem => {
-            const { messaging } = entryItem;
-            if (messaging && messaging.length > 0) {
-                messaging.forEach(messageItem => {
-                    const { sender, message } = messageItem;
-                    console.log(`Received message from ${sender}: ${message}`);
-                });
-            }
-        });
-    }
-    res.sendStatus(200);
-});
+// app.post('/webhook2', (req, res) => {
+//     const { entry } = req.body;
+//     if (entry && entry.length > 0) {
+//         entry.forEach(entryItem => {
+//             const { messaging } = entryItem;
+//             if (messaging && messaging.length > 0) {
+//                 messaging.forEach(messageItem => {
+//                     const { sender, message } = messageItem;
+//                     console.log(`Received message from ${sender}: ${message}`);
+//                 });
+//             }
+//         });
+//     }
+//     res.sendStatus(200);
+// });
 
 app.use((req, res) => {
     res.status(404).json({ error: 'Not Found' });
