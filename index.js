@@ -26,10 +26,9 @@ app.get('/redirect', (req, res) => {
     res.redirect(301, 'http://localhost:9999/new-endpoint');
 });
 
-app.post('/webhook', (req, res) => {
+app.post('/webhook', async (req, res) => {
     const { from, message } = req.body;
-    req.body.message = `Received message from ${from}: ${message}`;
-    res.redirect(301, 'http://localhost:9999/new-endpoint');
+    await axios.post('http://localhost:9999/new-endpoint', { from, message });
 });
 
 app.use((req, res) => {

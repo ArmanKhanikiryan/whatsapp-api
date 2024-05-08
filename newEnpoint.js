@@ -1,6 +1,6 @@
 const app = require('express')();
 
-app.get('/new-endpoint', (req, res) => {
+app.post('/new-endpoint', (req, res) => {
     console.log(req.body.message, 'My message is retrieved from the request body');
     res.json({ message: 'Hello, World!' });
 });
