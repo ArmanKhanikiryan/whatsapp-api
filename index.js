@@ -9,7 +9,7 @@ const API_TOKEN = process.env.WHATSAPP_API_TOKEN;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(testRoute)
+app.use('/test', testRoute)
 
 const sendMessage = async (to) => {
     try {
