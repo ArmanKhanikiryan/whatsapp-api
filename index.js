@@ -52,7 +52,7 @@ app.post('/send-message', async (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.send('Hello World! This is a root route.');
+    res.send(825860659);
 })
 
 app.post('/webhook', (req, res) => {
