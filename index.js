@@ -10,9 +10,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 app.use('/test', testRoute);
-
+console.log('App started');
 
 app.get('/', (req, res) => {
+    console.log('DEFAULT ROUTE');
+    res.send({message: 'Hello from Express' });
+})
+
+app.get('/webhook', (req, res) => {
     const receivedChallenge = req.query['hub.challenge'];
     if (receivedChallenge) {
         res.status(200).send(receivedChallenge);
