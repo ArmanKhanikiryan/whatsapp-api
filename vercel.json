@@ -15,5 +15,9 @@
         "Access-Control-Allow-Origin": "*"
       }
     }
-  ]
+  ],
+  "env": {
+    "WHATSAPP_API_TOKEN": "EAAGqZBSfdTh4BO81P1TZCsxVeGntZCH9HRC0eXMMlkkOQLrj08zopZBveqQdq6SZBf7N5QC9yb2tMkTNVEijujJEyHXW7Y44TvSE6CBT80I0LYNzcmV3znsivMzwZBG9CGCAUf3tQ9Wo8mOX8meHIyWKD4acZCOslntVAtTBHusm2VEZAStJIqcGpFoAZCwv5rZCVsh92OmIw6adwovnaj5uYoweBJbIUMgjiPEqgZD",
+    "WHATSAPP_API_URL": "https://graph.facebook.com/v19.0/112275655198084/messages"
+  }
 }
