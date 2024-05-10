@@ -21,8 +21,8 @@ app.get('/', (req, res) => {
 app.post('/message', async (req, res) => {
     try {
         const { to, message } = req.body;
-        await sendTemplateMessage(to)
         console.log('Template breakpoint')
+        // await sendTemplateMessage(to)
         await sendCustomMessage(to, message);
         res.sendStatus(200)
     }catch (e) {

@@ -1,6 +1,8 @@
 const axios = require("axios");
-const API_URL = process.env.API_URL;
-const API_TOKEN = process.env.API_TOKEN;
+
+const API_URL = 'https://graph.facebook.com/v19.0/112275655198084/messages';
+const API_TOKEN = 'EAAGqZBSfdTh4BO4utiQpMnDZBQcdapO5VcY1FxjPoLWhfreWfPVnAqVLW8emntZABBDm8gFkA9ZAph81QXVDA0ZBIckwZCEMejN8B7ihxhf4dJzPfrCqSNtuau4HvloJCZC3xgZC6aXwmLSfy6Jdkjzcs4FMPApC9Tfd9tQ8oXo0oVPjhOXQyziZAZBmgtZApfLDlZCPS7lwyax39EKk7ti56FcZD';
+
 const sendTemplateMessage = async (to) => {
     try {
         const response = await axios.post(
@@ -30,7 +32,6 @@ const sendTemplateMessage = async (to) => {
         throw error;
     }
 };
-
 const sendCustomMessage = async (to, message) => {
     try {
         const response = await axios.post(
