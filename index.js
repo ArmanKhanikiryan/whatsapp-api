@@ -2,11 +2,12 @@ const express = require('express');
 const axios = require('axios');
 const testRoute = require("./routes/test.route");
 const cors = require('cors');
-const {sendTemplateMessage, sendCustomMessage} = require("./messages");
+const {sendCustomMessage} = require("./messages");
 const app = express();
 const port = process.env.PORT || 3030;
-const API_URL = process.env.API_URL;
-const API_TOKEN = process.env.API_TOKEN;
+const API_URL = 'https://graph.facebook.com/v19.0/112275655198084/messages';
+const API_TOKEN = 'EAAGqZBSfdTh4BO4utiQpMnDZBQcdapO5VcY1FxjPoLWhfreWfPVnAqVLW8emntZABBDm8gFkA9ZAph81QXVDA0ZBIckwZCEMejN8B7ihxhf4dJzPfrCqSNtuau4HvloJCZC3xgZC6aXwmLSfy6Jdkjzcs4FMPApC9Tfd9tQ8oXo0oVPjhOXQyziZAZBmgtZApfLDlZCPS7lwyax39EKk7ti56FcZD';
+
 app.use(express.json());
 app.use(cors());
 app.use('/test', testRoute);
@@ -21,7 +22,6 @@ app.post('/message', async (req, res) => {
     try {
         const { to, message } = req.body;
         console.log('Template breakpoint')
-        // await sendTemplateMessage(to)
         await sendCustomMessage(to, message);
         res.sendStatus(200)
     }catch (e) {
@@ -74,7 +74,6 @@ app.post("/webhook",(req,res)=>{ //i want some
                 headers:{
                     "Content-Type":"application/json"
                 }
-
             });
 
             res.sendStatus(200);
