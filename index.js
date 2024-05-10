@@ -50,7 +50,26 @@ app.post('/webhook', async (req, res) => {
     console.log('-------------------');
     console.log('-------------------');
     console.log('Webhook Body', req.body.object);
-    res.status(200).send('Webhook received');
+    const phone_number_id = req.body.entry[0].changes[0].value.metadata.phone_number_id
+    await axios({
+        method: "POST",
+        url: `https://graph.facebook.com/v19.0/${phone_number_id}}/messages?access_token=${API_TOKEN}`,
+        data: {
+            messaging_product: "whatsapp",
+            to: phone_number_id,
+            type: "text",
+            text: {
+                body: "Hello from the webhook"
+            },
+            language: {
+                code: "en_US"
+            }
+        },
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    res.sendStatus(200);
 });
 
 app.use((req, res) => {
