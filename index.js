@@ -7,7 +7,6 @@ const app = express();
 const port = process.env.PORT || 3030;
 const API_URL = process.env.API_URL;
 const API_TOKEN = process.env.API_TOKEN;
-
 app.use(express.json());
 app.use(cors());
 app.use('/test', testRoute);
@@ -40,37 +39,41 @@ app.get('/webhook', (req, res) => {
 });
 
 
-app.get('/redirect', (req, res) => {
-    req.body.message = 'You were redirected to a new endpoint';
-    res.redirect(301, 'http://localhost:9999/new-endpoint');
+
+app.post("/webhook",(req,res)=>{ //i want some
+
+    let body_param=req.body;
+
+    console.log(JSON.stringify(body_param,null,2));
+    if(body_param.object){
+        console.log("inside body param");
+        let phon_no_id=body_param.entry[0].changes[0].value.metadata.phone_number_id;
+        let from = body_param.entry[0].changes[0].value.messages[0].from;
+        let msg_body = body_param.entry[0].changes[0].value.messages[0].text.body;
+
+        console.log("phone number "+phon_no_id);
+        console.log("from "+from);
+        console.log("boady param "+msg_body);
+
+        axios({
+            method:"POST",
+            url:"https://graph.facebook.com/v13.0/"+phon_no_id+"/messages?access_token="+API_TOKEN,
+            data:{
+                messaging_product:"whatsapp",
+                to:from,
+                text:{
+                    body:"Hi.. I'm Prasath, your message is "+msg_body
+                }
+            },
+            headers:{
+                "Content-Type":"application/json"
+            }
+        });
+        res.sendStatus(200);
+    }
 });
 
-app.post('/webhook', async (req, res) => {
-    console.log('Webhook Body', req.body);
-    console.log('-------------------');
-    console.log('-------------------');
-    console.log('Webhook Body', req.body.object);
-    const phone_number_id = req.body.entry[0].changes[0].value.metadata.phone_number_id
-    await axios({
-        method: "POST",
-        url: `https://graph.facebook.com/v19.0/${phone_number_id}}/messages?access_token=${API_TOKEN}`,
-        data: {
-            messaging_product: "whatsapp",
-            to: phone_number_id,
-            type: "text",
-            text: {
-                body: "Hello from the webhook"
-            },
-            language: {
-                code: "en_US"
-            }
-        },
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
-    res.sendStatus(200);
-});
+
 
 app.use((req, res) => {
     res.status(404).json({ error: 'Not Found' });
